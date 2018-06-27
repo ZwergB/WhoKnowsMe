@@ -6,7 +6,7 @@ function submitClick() {
 	document.getElementById('output').appendChild(reloading);
 	
 	//2) Eingabe auslesen //wenn eingabe leer, hier abbrechen (aber ladebalken wieder entfernen)
-	let input = document.getElementById('username').value;
+	let input = encodeURI(document.getElementById('username').value);
 
 	//3) Anfrage senden (findAccounts/EINGABE)
 	let url = 'services/AccountService/serve/' + input;
@@ -33,7 +33,7 @@ window.onload = function() {
 
 function runRequest(username, json) {
 	let subheader       = document.createElement('h2');
-	subheader.innerHTML = 'There are accounts for "' + username + '" at:';
+	subheader.innerHTML = 'There are accounts for "' + decodeURI(username) + '" at:';
 
 	let list = createList(json);
 

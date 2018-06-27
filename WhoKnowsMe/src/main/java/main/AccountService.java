@@ -23,8 +23,10 @@ public class AccountService {
 	@Path("serve/{input}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String serve(@PathParam("input") String input) {
+		String realInput = unescape(input);
+		
 		PortalFactory factory = new PortalFactory();
-		List<Portal> allPortals = factory.loadPortals(input);
+		List<Portal> allPortals = factory.loadPortals(realInput);
 
 		return Account.jsonAccountList(findAccounts(allPortals)).toString();
 	}
@@ -39,9 +41,14 @@ public class AccountService {
 					allAccounts.add(new Account(p.getUrl(), p.getPortalName()));
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 		return allAccounts;
+	}
+	
+	static String unescape(String in) {
+		String out = in.replaceAll("%20", " ");
+		return out;
 	}
 }
